@@ -1,35 +1,55 @@
+# useful link for learing scraping by selenium:
+# https://www.scrapingbee.com/blog/selenium-python/
+
 # Import the required library
-import requests
-from bs4 import BeautifulSoup
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.chrome.options import Options
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+import time
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 
-# defined function to get name of country and return html of Numbo
-def get_country_html(country_name):
+# This function get the name of country and return body of numbeo
+def get_numbeo_body(country_name):
     # link of webpage of desired country on numbeo.com
-    url = "https://www.numbeo.com/cost-of-living/country_result.jsp?country=Iran"
-    # "https://www.numbeo.com/cost-of-living/country_result.jsp?country=" + country_name
-    headers = {'User-Agent': 'Mozilla/5.0'}
-    response = requests.get(url, headers=headers)
-    html = response.content
-    # scraped html file
-    scraped = BeautifulSoup(html, "html.parser")
-    # return html of website
-    return scraped.body
+    url = "https://www.numbeo.com/cost-of-living/country_result.jsp?country=" + country_name
+    # create options for using non GUI web driver
+    options = Options()
+    options.add_argument("start-maximized")
+    options.add_argument("--headless")
+    driver = webdriver.Chrome(service=Service(
+        ChromeDriverManager().install()), options=options)
+    # download a desired url webpage
+    driver.get(url)
+    # find the body tage
+    body = driver.find_element(By.TAG_NAME, "body")
+    # return type is <class 'selenium.webdriver.remote.webelement.WebElement'>
+    return body
+    
+#  This function get the body of numboe webpage and return living cost for family
+def get_family_cost(body):
+    # find element by xpath/ it's find the span for family cost
+    family_cost = body.find_element(By.XPATH, "//span[@class='emp_number']")
+    # get text of span
+    text_price = family_cost.text
+    return text_price
 
-# This function get body of webpage and return family and single living cost
-def get_estimated_cost(html):
-    # soup.find("span", {"class": "real number", "data-value": True})['data-value']
-    div = html.find("div", class_ = "innerWidth")
-    
-    # div = div.find("div")
-    
-    return div
+# Defined a function that get the price string and return value in Integer
+# The format of string is string_price ="1,635.2$"
+def get_int_price(string_price):
+    pass
+
+# Defined a function that get string list of countries name and return pandas data frame
+def livingCost_df(list_countries_name):
+    pass
 
 # test the functions
 if __name__=="__main__":
-    html = get_country_html("Iran")
-    x = get_estimated_cost(html)
-    
-    print(type(html))
-    print(x)
-
-
+    # pass
+    body = get_numbeo_body("Iraq")
+    price = get_family_cost(body)
+    print(price)
+    print("------------------------------")
+    print(type(body))
