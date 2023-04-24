@@ -1,0 +1,52 @@
+<div class="innerWidth" id="content_and_logo">
+<table style="width: 100%;">
+<tr>
+<td style="padding-top: 5px; padding-bottom: 7px; vertical-align: bottom;">
+<a href="https://www.numbeo.com/cost-of-living/" style="border: 0; text-decoration:none;">
+<img alt="" src="https://www.numbeo.com/images/numbeo_1B3B6F.svg" style="height: 56px; padding: 0px 0px; vertical-align: bottom; border: 0;"/></a>
+</td>
+<td style="padding-left:60px; padding-top: 1px; padding-bottom: 0px; vertical-align: middle; width: 840px; text-align: left;">
+<div style="display: inline-block; width: 100%; margin-top: 10px; margin-bottom: 10px; text-align: left; vertical-align: bottom">
+<nav style="display: inline-block; vertical-align: middle;">
+<div class="standard_margin_inlineblock"> <form action="https://www.numbeo.com/common/dispatcher.jsp" id="menu_dispatch_form" method="get" style="display: inline; padding: 0; margin:0;">
+<input name="where" style="display: inline; padding:0; margin:0;" type="hidden" value="https://www.numbeo.com/cost-of-living/in/"/>
+<input class="city-selector-menu" id="city_selector_menu_city_id" name="city_selector_menu_city_id" placeholder="Select City" size="27" type="text"/>
+<input id="menu_city_id" name="city_id" type="hidden"/>
+<input id="name_menu_city_id" name="name_city_id" type="hidden"/>
+</form>
+</div>
+<script>
+whenDocReady(function() {
+        jQuery('#city_selector_menu_city_id').autocomplete({
+          source: 'https://www.numbeo.com/common/CitySearchJson',
+     minLength: 1,
+     delay: 3,
+     autoFocus: true,
+     select: function(event, ui) {
+         event.preventDefault();
+         $('#name_menu_city_id').val(ui.item.label);
+         $('#city_selector_menu_city_id').val(ui.item.label);
+         $('#menu_city_id').val(ui.item.value);
+jQuery('#menu_dispatch_form').submit();     },
+     focus: function(event, ui) {
+         event.preventDefault();
+     }
+          })   .keydown(function(e){
+            if (e.keyCode === 13){
+      if ($('#menu_city_id').val() == '') { 
+        e.preventDefault();
+      }
+      var val = $('#city_selector_menu_city_id').val();
+                   $('#name_menu_city_id').val(val);
+           }
+  }); // end autocompleter definition
+$('#city_selector_menu_city_id').toggleClass('city-selector-menu');
+$('#city_selector_menu_city_id').toggleClass('city-selector-menu');
+ }); // end document ready 
+</script>
+</nav>
+</div>
+</td>
+</tr>
+</table>
+</div>
