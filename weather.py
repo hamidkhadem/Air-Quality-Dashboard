@@ -79,8 +79,7 @@ def get_df_euro_AQI(city_country_name):
 # function that return a clean dataframe euro AQI
 # by removing Nane value and replace avrage value of AQI for one day
 def clean_df_euro_AQI(df):
-    # df = pd.DataFrame()
-    # first drop null value
+    # first drop Nan value
     df = df.dropna()
     df = df.reset_index()
     # change the value of time column from hourly("2023-04-21T00:00") to daily("2023-04-21")
@@ -88,9 +87,7 @@ def clean_df_euro_AQI(df):
     # calculate the avrage of AQI for same date
     avg_series = df.groupby('time')["european_aqi"].mean()
     new_df = pd.DataFrame({'time':avg_series.index, 'avg_AQI': avg_series.values})
-    # print(type(new_df))
-    # print(list_by_date)
-    # print(new_df.head(30))
+    
     return new_df
 
 
@@ -139,16 +136,6 @@ def city_country_AQI(city_country_name):
 
 # for test the functions
 if __name__=="__main__":
-    # # defined list of countries name
-    # countries_list = ["lebanon", "United Arab", "Canada", "Germany"]
-    # lat, lon = get_lat_long("Isfahan")
-    # print(f"for Isfhan is latitude: {lat} and longitude: { lon}")
-    # lat, lon = get_lat_long("Tehran")
-    # print(f"for Tehran is latitude: {lat} and longitude: { lon}")
-
-    # # get dataframe and print head of them
-    # df = get_weather_df(countries_list)
-    # print(df.head())
 
     while(True):
         city_country_name = input("Please Enter the your desired city or country name?")
