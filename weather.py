@@ -176,14 +176,10 @@ if __name__=="__main__":
     
     # list cities
     list_cities = ['Dubai', 'Berlin', 'Paris', 'Sydney', 'Chicago']
+    # get the dataframe resutl from API calls
     df = cities_countries_AQI(list_cities)
-    
+    # print result
     print(df.head())
-
     # save the result in csv file
     df.to_csv("src/air_quality.csv", index=False)
     print("Dataframe was saved!")
-    # while(True):
-    #     city_country_name = input("Please Enter the your desired city or country name?")
-    #     print(
-    #         f"AirQuality for {city_country_name} is: \n {city_country_AQI(city_country_name)} \n")
